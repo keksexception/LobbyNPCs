@@ -11,6 +11,8 @@ import de.raffi.lobbynpcs.main.LobbyNPCs;
 import de.raffi.lobbynpcs.utils.ConfigLobbyNPCs;
 import de.raffi.lobbynpcs.utils.InventoryManager;
 import de.raffi.lobbynpcs.utils.LobbyNPCManager;
+import de.raffi.pluginlib.compability.npchandler.NPCHandlerManager;
+import de.raffi.pluginlib.main.PluginLib;
 import de.raffi.pluginlib.npc.NPC;
 import de.raffi.pluginlib.test.InputHandler;
 import de.raffi.pluginlib.test.MessageHandler;
@@ -271,10 +273,28 @@ public class LobbyNPCCommand implements CommandExecutor {
 							p.sendMessage(ConfigLobbyNPCs.PREFIX + "§e/lobbynpc reload §7Reload the fileconfiguration");
 						if(p.hasPermission(ConfigLobbyNPCs.PERMISSION_SETUP))
 							p.sendMessage(ConfigLobbyNPCs.PREFIX + "§e/lobbynpc setup §7Configure plugin-settings ingame");
+						if(p.hasPermission(ConfigLobbyNPCs.PERMISSION_INFO))
+							p.sendMessage(ConfigLobbyNPCs.PREFIX + "§e/lobbynpc info §7Show info about the plugin. Send that information to the developer if you have an issuse");
 						
 						p.sendMessage(ConfigLobbyNPCs.PREFIX + "§e/lobbynpc help §7Show this help");
 						p.sendMessage(ConfigLobbyNPCs.PREFIX);
-					}else 
+					}else if(args[0].equalsIgnoreCase("info")) {
+						if(p.hasPermission(ConfigLobbyNPCs.PERMISSION_INFO)) {
+							p.sendMessage("LobbyNPC version: versionid:" + LobbyNPCs.requiredVersion + " versionname:" + LobbyNPCs.getInstance().getDescription().getVersion());
+							try {
+								p.sendMessage("PluginLib version: versionid:" + PluginLib.API_VERSION + " versionname:" + PluginLib.getInstance().getDescription().getVersion());
+							} catch (Exception e) {
+								p.sendMessage("§c---Error---");
+								p.sendMessage("§c§lYou are using a too old version of PluginLib. Please install the newest version.");
+							}
+							p.sendMessage("NMS version: " + PluginLib.getServerVersion());
+							p.sendMessage("Bukkit version: "+ LobbyNPCs.getInstance().getServer().getBukkitVersion());
+							p.sendMessage("Server version: "+LobbyNPCs.getInstance().getServer().getVersion());
+							p.sendMessage("NPC Handler: " + NPCHandlerManager.npcHandler.getClass().getName());
+							LobbyNPCs.getInstance().printInfo();
+							
+						} else p.sendMessage(ConfigLobbyNPCs.NO_PERMISSION);
+					} else
 						p.sendMessage(ConfigLobbyNPCs.PREFIX+"§cUnkown command. Please use /lobbynpc help");
 				} else 
 					p.sendMessage(ConfigLobbyNPCs.PREFIX+"§cUnkown command. Please use /lobbynpc help");

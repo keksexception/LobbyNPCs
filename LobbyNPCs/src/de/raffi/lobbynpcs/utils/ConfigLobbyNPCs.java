@@ -12,6 +12,8 @@ public class ConfigLobbyNPCs {
 	public static String PERMISSION_SETUP = "lobbynpc.setup";
 	@Setup(description = "Enter permission for reloading config", defaultValue = "lobbynpc.reload")
 	public static String PERMISSION_RELOAD = "lobbynpc.reload";
+	@Setup(description = "Enter permission for showing plugin info", defaultValue = "lobbynpc.info")
+	public static String PERMISSION_INFO = "lobbynpc.info";
 	@Setup(description = "Enter message for no permission.", defaultValue = "§cInsufficient permission.")
 	public static String NO_PERMISSION = "§cInsufficient permission.";
 	@Setup(description = "Enter prefix for plugin messages", defaultValue = "§eLobbyNPCs §8| ")
