@@ -23,7 +23,7 @@ public class LobbyNPCs extends JavaPlugin{
 	/**
 	 * @since 1.0-b2
 	 */
-	public static final int requiredVersion = 1;
+	public static final int requiredVersion = 2;
 	@SuppressWarnings("unused")
 	@Override
 	public void onEnable() {
