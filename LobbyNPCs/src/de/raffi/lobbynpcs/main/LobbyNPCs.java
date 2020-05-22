@@ -45,11 +45,7 @@ public class LobbyNPCs extends JavaPlugin{
 		
 		PluginSetup.loadValues(ConfigLobbyNPCs.class, config);
 		startSetup = !PluginSetup.isSaved(ConfigLobbyNPCs.class, config);
-		Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-			public void run() {
-				LobbyNPCManager.loadNPCS();
-			}
-		},30);
+		Bukkit.getScheduler().scheduleSyncDelayedTask(this, LobbyNPCManager::loadNPCS,30);
 	
 		
 		try {

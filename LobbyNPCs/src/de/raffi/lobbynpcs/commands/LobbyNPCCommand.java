@@ -1,5 +1,8 @@
 package de.raffi.lobbynpcs.commands;
 
+import java.util.Random;
+import java.util.UUID;
+
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -10,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import de.raffi.lobbynpcs.main.LobbyNPCs;
 import de.raffi.lobbynpcs.utils.ConfigLobbyNPCs;
 import de.raffi.lobbynpcs.utils.InventoryManager;
+import de.raffi.lobbynpcs.utils.LabyModHook;
 import de.raffi.lobbynpcs.utils.LobbyNPCManager;
 import de.raffi.pluginlib.compability.npchandler.NPCHandlerManager;
 import de.raffi.pluginlib.main.PluginLib;
@@ -40,6 +44,7 @@ public class LobbyNPCCommand implements CommandExecutor {
 								ItemStack item = null;
 								boolean autoRotate = true;
 								boolean forcefield = false;
+								boolean emote = false;
 			
 								@Override
 								public void onHandlerRemoved(boolean b) {
@@ -95,7 +100,33 @@ public class LobbyNPCCommand implements CommandExecutor {
 																										
 																										@Override
 																										public void onHandlerRemoved(boolean state) {
-																											NPC npc = new NPC(loc, npcName, fetch, skinName);
+																											boolean sneak =state;
+																											
+																											if(LabyModHook.isLabyModInstalled()) {
+																												InputHandler.getYesNoFeedback(p, ConfigLobbyNPCs.PREFIX+"§6Play random Emote when forcefield is triggered?", "§a[Yes]", "§c[No]", new YesNoCallback() {
+																													
+																													@Override
+																													public void onHandlerRemoved(boolean state) {
+																														emote = state;
+																														createNPC(p, loc, npcName, fetch, skinName, showInTab, server, item, autoRotate, forcefield, sneak, emote);
+																													}
+																													
+																													@Override
+																													public void decline() {
+																														// TODO Auto-generated method stub
+																														
+																													}
+																													
+																													@Override
+																													public void accept() {
+																														// TODO Auto-generated method stub
+																														
+																													}
+																												});
+																											} else {
+																												createNPC(p, loc, npcName, fetch, skinName, showInTab, server, item, autoRotate, forcefield, sneak, emote);
+																											}
+																											/*NPC npc = new NPC(loc, npcName, fetch, skinName);
 																											
 																											if(item != null)
 																												npc.setHandItem(item);
@@ -113,7 +144,7 @@ public class LobbyNPCCommand implements CommandExecutor {
 																											LobbyNPCManager.setProperty(npc, "forcefield", forcefield);
 																											LobbyNPCManager.setProperty(npc, "sneak", state);
 
-																											p.sendMessage(ConfigLobbyNPCs.PREFIX+"§aCreated NPC successfully. Rejoin to see a change.");
+																											p.sendMessage(ConfigLobbyNPCs.PREFIX+"§aCreated NPC successfully. Rejoin to see a change.");*/
 																											
 																										}
 																										
@@ -303,4 +334,31 @@ public class LobbyNPCCommand implements CommandExecutor {
 		return false;
 	}
 
+	public void createNPC(Player p, Location loc, String npcName,boolean fetch,String skinName,boolean showInTab, String server, ItemStack item, boolean autoRotate,boolean forcefield,boolean sneak,boolean emote) {
+		NPC npc = null;
+		if(emote) 
+			npc = new NPC(loc, new UUID(new Random().nextLong(), 0), npcName, skinName);
+		 else 
+			npc = new NPC(loc, npcName, fetch, skinName);
+		if(item != null)
+			npc.setHandItem(item);
+		npc.setRemovedFromTablist(!showInTab);
+		npc.register();
+		npc.enableAutoSpawn();
+		LobbyNPCManager.setAutoRotate(npc, autoRotate);
+		LobbyNPCManager.setServer(npc, server);
+		LobbyNPCManager.setItem(npc, item);
+		LobbyNPCManager.setForcefield(npc, forcefield);	
+		LobbyNPCManager.setAutoSneak(npc, sneak);
+		LobbyNPCManager.setEmote(npc, emote);
+		
+		LobbyNPCManager.setProperty(npc, "server", server);
+		LobbyNPCManager.setProperty(npc, "rotate", autoRotate);
+		LobbyNPCManager.setProperty(npc, "forcefield", forcefield);
+		LobbyNPCManager.setProperty(npc, "sneak", sneak);
+		LobbyNPCManager.setProperty(npc, "emote", emote);
+		
+
+		p.sendMessage(ConfigLobbyNPCs.PREFIX+"§aCreated NPC successfully. Rejoin to see a change.");
+	}
 }

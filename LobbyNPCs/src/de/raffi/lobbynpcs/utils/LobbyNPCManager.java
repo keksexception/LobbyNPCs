@@ -72,6 +72,18 @@ public class LobbyNPCManager {
 		return (boolean) getProperty(npc, "rotate");
 	}
 	
+	public static boolean getEmote(NPC npc) {
+		return cfg.getBoolean(npc.getIdentification()+".emote");
+	}
+	public static boolean isEmote(NPC npc) {
+		return (boolean) getProperty(npc, "emote");
+	}
+	public static void setEmote(NPC npc, boolean b) {
+		cfg.set(npc.getIdentification()+".emote", b);
+		saveFileCfg();
+	}
+	
+	
 	public static Object getProperty(NPC npc, String prop) {
 		if(properties.get(npc)==null) properties.put(npc, new HashMap<>());
 		return properties.get(npc).get(prop);
@@ -81,14 +93,6 @@ public class LobbyNPCManager {
 		properties.get(npc).put(prop, value);
 	}
 	
-	/*public static void sendEmote(Player p, NPC npc, int id) {
-		JsonArray array = new JsonArray();
-		JsonObject forcedEmote = new JsonObject();
-		forcedEmote.addProperty("uuid", npc.getProfile().getId().toString());
-		forcedEmote.addProperty("emote_id", (Number) id);
-		array.add((JsonElement) forcedEmote);
-		LabyModPlugin.getInstance().sendServerMessage(p, "emote_api", (JsonElement) array);
-	}*/
 	  
 	 
 	private static void saveFileCfg() {
@@ -115,6 +119,7 @@ public class LobbyNPCManager {
 				setProperty(npc, "rotate", getAutoRotate(npc));
 				setProperty(npc, "forcefield", getForcefield(npc));
 				setProperty(npc, "sneak", getAutoSneak(npc));
+				setProperty(npc, "emote", getEmote(npc)&&LabyModHook.isLabyModInstalled());
 			}
 		} catch (Exception e) {}
 	}

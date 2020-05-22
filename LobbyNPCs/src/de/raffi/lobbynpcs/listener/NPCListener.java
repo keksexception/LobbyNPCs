@@ -1,6 +1,7 @@
 package de.raffi.lobbynpcs.listener;
 
 import java.util.HashMap;
+import java.util.Random;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -15,6 +16,7 @@ import org.bukkit.util.Vector;
 import de.raffi.lobbynpcs.main.LobbyNPCs;
 import de.raffi.lobbynpcs.utils.ConfigLobbyNPCs;
 import de.raffi.lobbynpcs.utils.InventoryManager;
+import de.raffi.lobbynpcs.utils.LabyModHook;
 import de.raffi.lobbynpcs.utils.LobbyNPCManager;
 import de.raffi.pluginlib.bungeecord.BungeeAPI;
 import de.raffi.pluginlib.event.PlayerInteractAtNPCEvent;
@@ -100,6 +102,7 @@ public class NPCListener implements Listener{
 						double z = Az - Bz;
 						Vector v = new Vector(x, y, z).normalize().multiply(0.6D).setY(0.3D);
 						p.setVelocity(v);
+						LabyModHook.sendEmote(p, npc, new Random().nextInt(174));
 					}
 				}
 			}
