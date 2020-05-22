@@ -23,11 +23,14 @@ A clear and concise description of what you expected to happen.
 **Console log**
 If applicable, add the console log with the error to help explain your problem.
 
-**Desktop (please complete the following information):**
+**Please complete the following information or send the information displayed by typing /lobbynpc info:**
  - Pluginversion [e.g. 1.0-b1]
  - PluginLib version [e.g. 1.1-b1]
  - Server version [e.g. 1.8.8]
  - Java version [e.g. Java 8]
+
+**Installed plugins**
+A list of all plugins installed on the server.
 
 **Additional context**
 Add any other context about the problem here.
