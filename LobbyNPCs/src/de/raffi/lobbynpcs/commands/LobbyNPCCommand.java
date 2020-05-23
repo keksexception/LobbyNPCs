@@ -124,7 +124,7 @@ public class LobbyNPCCommand implements CommandExecutor {
 																													}
 																												});
 																											} else {
-																												createNPC(p, loc, npcName, fetch, skinName, showInTab, server, item, autoRotate, forcefield, sneak, emote);
+																												createNPC(p, loc, npcName, fetch, skinName, showInTab, server, item, autoRotate, forcefield, sneak, false);
 																											}
 																											/*NPC npc = new NPC(loc, npcName, fetch, skinName);
 																											

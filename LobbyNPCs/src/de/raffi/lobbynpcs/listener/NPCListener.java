@@ -102,7 +102,8 @@ public class NPCListener implements Listener{
 						double z = Az - Bz;
 						Vector v = new Vector(x, y, z).normalize().multiply(0.6D).setY(0.3D);
 						p.setVelocity(v);
-						LabyModHook.sendEmote(p, npc, new Random().nextInt(174));
+						if(LobbyNPCManager.isEmote(npc))
+							LabyModHook.sendEmote(p, npc, new Random().nextInt(174));
 					}
 				}
 			}

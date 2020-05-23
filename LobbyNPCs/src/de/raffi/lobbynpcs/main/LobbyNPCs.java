@@ -23,7 +23,7 @@ public class LobbyNPCs extends JavaPlugin{
 	/**
 	 * @since 1.0-b2
 	 */
-	public static final int requiredVersion = 2;
+	public static final int requiredVersion = 3;
 	@SuppressWarnings("unused")
 	@Override
 	public void onEnable() {
@@ -49,7 +49,7 @@ public class LobbyNPCs extends JavaPlugin{
 	
 		
 		try {
-			BungeeAPI.registerChannel(this);
+			Bukkit.getScheduler().scheduleSyncDelayedTask(this, ()->BungeeAPI.registerChannel(this),30);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
