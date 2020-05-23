@@ -18,7 +18,6 @@ import de.raffi.lobbynpcs.utils.ConfigLobbyNPCs;
 import de.raffi.lobbynpcs.utils.InventoryManager;
 import de.raffi.lobbynpcs.utils.LabyModHook;
 import de.raffi.lobbynpcs.utils.LobbyNPCManager;
-import de.raffi.pluginlib.bungeecord.BungeeAPI;
 import de.raffi.pluginlib.event.PlayerInteractAtNPCEvent;
 import de.raffi.pluginlib.npc.NPC;
 import de.raffi.pluginlib.npc.NPCManager;
@@ -70,7 +69,7 @@ public class NPCListener implements Listener{
 		if(System.currentTimeMillis()-allow.get(e.getPlayer())>ConfigLobbyNPCs.NPC_COOLDOWN) {
 			allow.put(e.getPlayer(), System.currentTimeMillis());
 			e.getPlayer().sendMessage(ConfigLobbyNPCs.connectingMessage);
-			BungeeAPI.sendToServer(LobbyNPCs.getInstance(), (String) LobbyNPCManager.getProperty(e.getNPC(), "server"), e.getPlayer());
+			de.raffi.lobbynpcs.utils.Bungee.sendToServer((String) LobbyNPCManager.getProperty(e.getNPC(), "server"), e.getPlayer());
 		}
 		
 	}

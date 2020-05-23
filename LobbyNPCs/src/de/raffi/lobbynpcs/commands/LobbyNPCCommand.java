@@ -48,7 +48,7 @@ public class LobbyNPCCommand implements CommandExecutor {
 			
 								@Override
 								public void onHandlerRemoved(boolean b) {
-									InputHandler.getInputFrom(p, ConfigLobbyNPCs.PREFIX+"§6Enter the skin name of the npc (name is used to get cape etc.)", new MessageHandler() {
+									InputHandler.getInputFrom(p, ConfigLobbyNPCs.PREFIX+"§6Enter the name of the npc", new MessageHandler() {
 										
 										@Override
 										public void onMessageDenied(String message) {p.sendMessage("§cError: String length is bigger than maximum of 16!");}
@@ -73,7 +73,7 @@ public class LobbyNPCCommand implements CommandExecutor {
 																
 																@Override
 																public void onHandlerRemoved(boolean b) {
-																	InputHandler.getInputFrom(p, ConfigLobbyNPCs.PREFIX+"§6On what server should a player get send to (servername)?", new MessageHandler() {
+																	InputHandler.getInputFrom(p, ConfigLobbyNPCs.PREFIX+"§6To what server should a player get send to (servername)?", new MessageHandler() {
 																		
 																		@Override
 																		public void onMessageDenied(String message) {
@@ -126,25 +126,6 @@ public class LobbyNPCCommand implements CommandExecutor {
 																											} else {
 																												createNPC(p, loc, npcName, fetch, skinName, showInTab, server, item, autoRotate, forcefield, sneak, false);
 																											}
-																											/*NPC npc = new NPC(loc, npcName, fetch, skinName);
-																											
-																											if(item != null)
-																												npc.setHandItem(item);
-																											npc.setRemovedFromTablist(!showInTab);
-																											npc.register();
-																											npc.enableAutoSpawn();
-																											LobbyNPCManager.setAutoRotate(npc, autoRotate);
-																											LobbyNPCManager.setServer(npc, server);
-																											LobbyNPCManager.setItem(npc, item);
-																											LobbyNPCManager.setForcefield(npc, forcefield);	
-																											LobbyNPCManager.setAutoSneak(npc, state);
-																											
-																											LobbyNPCManager.setProperty(npc, "server", server);
-																											LobbyNPCManager.setProperty(npc, "rotate", autoRotate);
-																											LobbyNPCManager.setProperty(npc, "forcefield", forcefield);
-																											LobbyNPCManager.setProperty(npc, "sneak", state);
-
-																											p.sendMessage(ConfigLobbyNPCs.PREFIX+"§aCreated NPC successfully. Rejoin to see a change.");*/
 																											
 																										}
 																										

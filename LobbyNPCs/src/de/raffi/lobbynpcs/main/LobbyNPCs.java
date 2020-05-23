@@ -10,7 +10,6 @@ import de.raffi.lobbynpcs.commands.LobbyNPCCommand;
 import de.raffi.lobbynpcs.listener.NPCListener;
 import de.raffi.lobbynpcs.utils.ConfigLobbyNPCs;
 import de.raffi.lobbynpcs.utils.LobbyNPCManager;
-import de.raffi.pluginlib.bungeecord.BungeeAPI;
 import de.raffi.pluginlib.compability.npchandler.NPCHandlerManager;
 import de.raffi.pluginlib.main.PluginLib;
 import de.raffi.pluginlib.test.setup.PluginSetup;
@@ -49,7 +48,7 @@ public class LobbyNPCs extends JavaPlugin{
 	
 		
 		try {
-			Bukkit.getScheduler().scheduleSyncDelayedTask(this, ()->BungeeAPI.registerChannel(this),30);
+			getServer().getMessenger().registerOutgoingPluginChannel(getInstance(), "BungeeCord");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
