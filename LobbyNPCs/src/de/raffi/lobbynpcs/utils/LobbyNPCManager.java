@@ -1,14 +1,23 @@
 package de.raffi.lobbynpcs.utils;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
+import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
 
 import de.raffi.pluginlib.npc.NPC;
 import de.raffi.pluginlib.npc.NPCData;
@@ -20,6 +29,7 @@ public class LobbyNPCManager {
 	public static List<NPCData> data = new ArrayList<>();
 	private static final File dataFile = new File("plugins/LobbyNPCs", "npcdata.dat");
 	private static final File npcdat = new File("plugins/LobbyNPCs", "npcdata.yml");
+	private static final File npcjson = new File("plugins/LobbyNPCs", "npcdata.json");
 	private static final FileConfiguration cfg = YamlConfiguration.loadConfiguration(npcdat);
 	
 	private static HashMap<NPC, HashMap<String, Object>> properties = new HashMap<>();
@@ -104,6 +114,44 @@ public class LobbyNPCManager {
 	}
 	@SuppressWarnings("unchecked")
 	public static void loadNPCS() {
+	
+		try {
+			if(!npcjson.exists()) {
+				System.out.println("[   INFO   ] [LobbyNPCs/NPC loading progress] npcdata.json does not exist. Skipping initialisation");
+			} else {
+				System.out.println("[   INFO   ] [LobbyNPCs/NPC loading progress] Loading npcdata.json");
+				FileReader reader = new FileReader(npcjson);
+				JSONParser jsonParser = new JSONParser();
+				
+				JSONArray npcs = (JSONArray) jsonParser.parse(reader);
+				for(Object singleNPC : npcs.toArray()) {
+					JSONObject npc = (JSONObject) singleNPC;
+					Location loc = Helper.createLocation((String) npc.get("location"));
+					UUID uuid = UUID.fromString((String) npc.get("uuid"));
+					String displayName = (String) npc.get("displayname");
+					String skinName = (String)npc.get("skinname");
+					NPC finalnpc = new NPC(loc, uuid, displayName, skinName);
+					if(getItem(finalnpc)!=null)
+						finalnpc.setHandItem(getItem(finalnpc));
+					setProperty(finalnpc, "server", getServer(finalnpc));
+					setProperty(finalnpc, "rotate", getAutoRotate(finalnpc));
+					setProperty(finalnpc, "forcefield", getForcefield(finalnpc));
+					setProperty(finalnpc, "sneak", getAutoSneak(finalnpc));
+					setProperty(finalnpc, "emote", getEmote(finalnpc)&&LabyModHook.isLabyModInstalled());
+					finalnpc.register();
+					finalnpc.enableAutoSpawn();
+					System.out.println("[   INFO   ] [LobbyNPCs/NPC loading progress] " + finalnpc.getSkinName() + " have been registered and loaded");
+				}
+			}
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(!dataFile.exists()) return;
+		/*
+		 * load from old config
+		 */
+		System.out.println("[   INFO   ] [LobbyNPCs/NPC loading progress] Found old NPC data! Restoring old data ....");
 		try {
 			if(!dataFile.getParentFile().exists()) dataFile.getParentFile().mkdir();
 			if(!dataFile.exists()) dataFile.createNewFile();
@@ -123,8 +171,9 @@ public class LobbyNPCManager {
 			}
 		} catch (Exception e) {}
 	}
+	@SuppressWarnings("unchecked")
 	public static void saveNPCS() {
-		try {
+		/*try {
 			if(!dataFile.getParentFile().exists()) dataFile.getParentFile().mkdir();
 			if(!dataFile.exists()) dataFile.createNewFile();
 			ObjectHelper writer = new ObjectHelper(dataFile).writer();
@@ -134,6 +183,25 @@ public class LobbyNPCManager {
 			}
 			writer.writeObject(data);
 			writer.closeWriter();
-		} catch (Exception e) {e.printStackTrace();}
+		} catch (Exception e) {e.printStackTrace();}*/
+		
+		JSONArray array = new JSONArray();
+		
+		for(NPC npc : NPCManager.npcs) {
+			JSONObject singleNPC = new JSONObject();
+			singleNPC.put("location", Helper.stringify(npc.getLocation()));
+			singleNPC.put("uuid", npc.getProfile().getId().toString());
+			singleNPC.put("displayname", npc.getProfile().getName());
+			singleNPC.put("skinname", npc.getSkinName());
+			array.add(singleNPC);
+		}
+		try {
+			if(!npcjson.getParentFile().exists()) npcjson.getParentFile().mkdir();
+			Files.write(Paths.get(npcjson.toURI()), array.toJSONString().getBytes());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	
+		
 	}
 }

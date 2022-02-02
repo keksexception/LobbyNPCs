@@ -59,6 +59,9 @@ public class NPCListener implements Listener{
 				
 			}
 		}
+		if(e.getPlayer().hasPermission("lobbynpc.admin")&&LobbyNPCs.updateRequired) {
+			e.getPlayer().sendMessage(ConfigLobbyNPCs.PREFIX+"§b§lA new version of LobbyNPCs is available: §9§o§nhttps://www.spigotmc.org/resources/79022/");
+		}
 	}
 	
 	

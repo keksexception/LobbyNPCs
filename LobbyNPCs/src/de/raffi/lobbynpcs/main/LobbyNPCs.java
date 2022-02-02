@@ -13,6 +13,8 @@ import de.raffi.lobbynpcs.utils.LobbyNPCManager;
 import de.raffi.pluginlib.compability.npchandler.NPCHandlerManager;
 import de.raffi.pluginlib.main.PluginLib;
 import de.raffi.pluginlib.test.setup.PluginSetup;
+import de.raffi.pluginlib.utils.SpigotUpdater;
+import de.raffi.pluginlib.utils.UpdateCallback;
 
 public class LobbyNPCs extends JavaPlugin{
 	
@@ -23,6 +25,7 @@ public class LobbyNPCs extends JavaPlugin{
 	 * @since 1.0-b2
 	 */
 	public static final int requiredVersion = 3;
+	public static boolean updateRequired = false;
 	@SuppressWarnings("unused")
 	@Override
 	public void onEnable() {
@@ -52,6 +55,24 @@ public class LobbyNPCs extends JavaPlugin{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println("[LobbyNPCs] Checking for updates ...");
+			SpigotUpdater.checkForUpdates("79022", new UpdateCallback() {
+				
+				@Override
+				public void onVersionReceived(String s) {
+					updateRequired = !s.equals(getInstance().getDescription().getVersion());			
+					if(updateRequired)
+						System.out.println("[LobbyNPCs] Please update: https://www.spigotmc.org/resources/79022/");
+					else System.out.println("[LobbyNPCs] No new version found.");
+				}
+				
+				@Override
+				public void onFail() {
+					System.out.println("[LobbyNPCs] Update check failed.");
+				}
+			});
+
+	
 	}
 	/**
 	 * @since 1.0-b2
