@@ -32,7 +32,7 @@ public class NPCListener implements Listener{
 	public void onJoin(PlayerJoinEvent e) {
 		if(LobbyNPCs.startSetup) {
 			if(e.getPlayer().hasPermission("lobbynpc.admin")) {
-				InputHandler.getYesNoFeedback(e.getPlayer(), "§c§lLobbyNPCs is not configured yet.", "§a[Configure now]", "§c[Skip manual configuration]", new YesNoCallback() {
+				InputHandler.getYesNoFeedback(e.getPlayer(), "§c§lLobbyNPCs is not configured yet.", "§a[Configure now]", " §c[Skip quick configuration]", new YesNoCallback() {
 					
 					@Override
 					public void onHandlerRemoved(boolean b) {}
@@ -49,9 +49,9 @@ public class NPCListener implements Listener{
 						new PluginSetup(e.getPlayer(), ConfigLobbyNPCs.class, new Runnable() {
 							public void run() {
 								PluginSetup.saveValues(ConfigLobbyNPCs.class, LobbyNPCs.config);
+								PluginSetup.loadValues(ConfigLobbyNPCs.class, LobbyNPCs.config);
 								e.getPlayer().sendMessage(ConfigLobbyNPCs.PREFIX+"§aLobbyNPCS Setup completed. ");
 								LobbyNPCs.startSetup=false;
-								PluginSetup.loadValues(ConfigLobbyNPCs.class, LobbyNPCs.config);
 							}
 						}).start();
 					}

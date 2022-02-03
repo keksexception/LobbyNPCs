@@ -34,7 +34,8 @@ public class LobbyNPCCommand implements CommandExecutor {
 				if(args.length == 1) {
 					if(args[0].equalsIgnoreCase("create")) {
 						if(p.hasPermission(ConfigLobbyNPCs.PERMISSION_NPC_CREATE)) {
-							InputHandler.getYesNoFeedback(p, ConfigLobbyNPCs.PREFIX+"§6Please go the place where the NPC should be.", "§a[I found the place!]", "", new YesNoCallback() {
+							p.sendMessage(ConfigLobbyNPCs.PREFIX + "§eClick on the options in brackets [ ] (if available) to navigate through the setup.");
+							InputHandler.getYesNoFeedback(p, ConfigLobbyNPCs.PREFIX+"§6Please go the location where you want to place the NPC and click on 'Place NPC'", "§a[Place NPC]", "", new YesNoCallback() {
 								Location loc=p.getLocation();
 								String npcName="Notch";
 								boolean fetch=false;
@@ -48,18 +49,18 @@ public class LobbyNPCCommand implements CommandExecutor {
 			
 								@Override
 								public void onHandlerRemoved(boolean b) {
-									InputHandler.getInputFrom(p, ConfigLobbyNPCs.PREFIX+"§6Enter the name of the npc", new MessageHandler() {
+									InputHandler.getInputFrom(p, ConfigLobbyNPCs.PREFIX+"§6Enter the name of the npc. Use '&' for colorcodes.", new MessageHandler() {
 										
 										@Override
 										public void onMessageDenied(String message) {p.sendMessage("§cError: String length is bigger than maximum of 16!");}
 										
 										@Override
 										public void onHandlerRemoved() {
-											InputHandler.getYesNoFeedback(p, ConfigLobbyNPCs.PREFIX+"§6Fetch the UUID of " + npcName + " (That enables cape)?", "§a[Yes]", "§c[No]", new YesNoCallback() {
+											InputHandler.getYesNoFeedback(p, ConfigLobbyNPCs.PREFIX+"§6Fetch the UUID of " + npcName + " §6(That enables cape)?", "§a[Yes]", "§c[No]", new YesNoCallback() {
 												
 												@Override
 												public void onHandlerRemoved(boolean b) {
-													InputHandler.getInputFrom(p, ConfigLobbyNPCs.PREFIX+"§6From which player should the skin be loaded from (Enter player name)?", new MessageHandler() {
+													InputHandler.getInputFrom(p, ConfigLobbyNPCs.PREFIX+"§6Load NPC skin from the following player: (Enter player name)?", new MessageHandler() {
 														
 														@Override
 														public void onMessageDenied(String message) {
@@ -73,7 +74,7 @@ public class LobbyNPCCommand implements CommandExecutor {
 																
 																@Override
 																public void onHandlerRemoved(boolean b) {
-																	InputHandler.getInputFrom(p, ConfigLobbyNPCs.PREFIX+"§6To what server should a player get send to (servername)?", new MessageHandler() {
+																	InputHandler.getInputFrom(p, ConfigLobbyNPCs.PREFIX+"§6To what server should a player get send to (bungee-servername) when interacting with the NPC?", new MessageHandler() {
 																		
 																		@Override
 																		public void onMessageDenied(String message) {
@@ -326,12 +327,8 @@ public class LobbyNPCCommand implements CommandExecutor {
 		npc.setRemovedFromTablist(!showInTab);
 		npc.register();
 		npc.enableAutoSpawn();
-		LobbyNPCManager.setAutoRotate(npc, autoRotate);
-		LobbyNPCManager.setServer(npc, server);
 		LobbyNPCManager.setItem(npc, item);
-		LobbyNPCManager.setForcefield(npc, forcefield);	
-		LobbyNPCManager.setAutoSneak(npc, sneak);
-		LobbyNPCManager.setEmote(npc, emote);
+
 		
 		LobbyNPCManager.setProperty(npc, "server", server);
 		LobbyNPCManager.setProperty(npc, "rotate", autoRotate);
