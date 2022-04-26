@@ -24,7 +24,7 @@ public class LobbyNPCs extends JavaPlugin{
 	/**
 	 * @since 1.0-b2
 	 */
-	public static final int requiredVersion = 3;
+	public static final int requiredVersion = 4;
 	public static boolean updateRequired = false;
 	@SuppressWarnings("unused")
 	@Override
