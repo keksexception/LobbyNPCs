@@ -335,6 +335,7 @@ public class LobbyNPCCommand implements CommandExecutor {
 		LobbyNPCManager.setProperty(npc, "forcefield", forcefield);
 		LobbyNPCManager.setProperty(npc, "sneak", sneak);
 		LobbyNPCManager.setProperty(npc, "emote", emote);
+		LobbyNPCManager.setProperty(npc, "tablist", showInTab);
 		
 
 		p.sendMessage(ConfigLobbyNPCs.PREFIX+"§aCreated NPC successfully. Rejoin to see a change.");

@@ -64,6 +64,7 @@ public class LobbyNPCs extends JavaPlugin{
 					if(updateRequired)
 						System.out.println("[LobbyNPCs] Please update: https://www.spigotmc.org/resources/79022/");
 					else System.out.println("[LobbyNPCs] No new version found.");
+					
 				}
 				
 				@Override

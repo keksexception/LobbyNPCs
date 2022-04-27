@@ -1,5 +1,5 @@
 name: LobbyNPCs
-version: 1.2-r5
+version: 1.2-r7
 main: de.raffi.lobbynpcs.main.LobbyNPCs
 authors: [keksexception]
 loadbefore: [PluginLib]

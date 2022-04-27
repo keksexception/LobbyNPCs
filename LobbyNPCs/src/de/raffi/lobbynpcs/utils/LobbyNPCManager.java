@@ -98,9 +98,10 @@ public class LobbyNPCManager {
 					String skinName = (String)npc.get("skinname");
 					String server = (String)npc.get("server");
 					boolean rotate = (boolean) npc.get("rotate");
-					boolean forcefield = (boolean) npc.get("rotate");
-					boolean sneak = (boolean) npc.get("rotate");
-					boolean emote = (boolean) npc.get("rotate");
+					boolean forcefield = (boolean) npc.get("forcefield");
+					boolean sneak = (boolean) npc.get("sneak");
+					boolean emote = (boolean) npc.get("emote");
+					boolean tablist = (boolean) npc.get("tablist");
 					NPC finalnpc = new NPC(loc, uuid, displayName, skinName);
 					if(getItem(finalnpc)!=null)
 						finalnpc.setHandItem(getItem(finalnpc));
@@ -109,8 +110,11 @@ public class LobbyNPCManager {
 					setProperty(finalnpc, "forcefield", forcefield);
 					setProperty(finalnpc, "sneak", sneak);
 					setProperty(finalnpc, "emote", emote&&LabyModHook.isLabyModInstalled());
+					setProperty(finalnpc, "tablist", tablist);
+					
 					finalnpc.register();
 					finalnpc.enableAutoSpawn();
+					finalnpc.setRemovedFromTablist(!tablist);
 				}
 			}
 		
@@ -133,6 +137,7 @@ public class LobbyNPCManager {
 			singleNPC.put("forcefield", (boolean)getProperty(npc, "forcefield"));
 			singleNPC.put("sneak", (boolean)getProperty(npc, "sneak"));
 			singleNPC.put("emote", (boolean)getProperty(npc, "emote"));
+			singleNPC.put("tablist", (boolean)getProperty(npc, "tablist"));
 			array.add(singleNPC);
 		}
 		try {
